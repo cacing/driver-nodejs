@@ -12,7 +12,7 @@ const cacing = require('cacing');
 
 (async () => {
   try {
-    const cacingClient = await cacing.createClient('cacing://username:password@localhost:6543');
+    const cacingClient = await cacing.connect('cacing://username:password@localhost:6543');
 
     await cacingClient.set('user1', 'cacing');
     await cacingClient.set('user2', 'hadihammurabi');
@@ -23,6 +23,8 @@ const cacing = require('cacing');
     console.log(await cacingClient.get('user3'));
   } catch(err) {
     console.error(err);
+  } finally {
+    cacingClient.disconnect();
   }
 })();
 ```
