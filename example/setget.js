@@ -7,4 +7,6 @@ const cacing = require('../dist');
 
   const getResult = await cacingClient.get('user1');
   console.log(getResult);
+
+  cacingClient.disconnect();
 })();

@@ -40,6 +40,10 @@ export class Client {
     throw Error(cmdResult?.payload);
   }
 
+  disconnect() {
+    this.socket.destroy();
+  }
+
 }
 
 export const connect = async (dsn: string): Promise<Client> => {
