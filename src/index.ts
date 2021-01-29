@@ -53,6 +53,18 @@ export class Client {
     return false;
   }
 
+  async del(key: string): Promise<string> {
+    const cmdExec = new Command(Signal.SignalExec, this.id || '', `DEL ${key}`);
+    await this.socket.write(cmdExec.toMessage() + '\n');
+    const result = (await this.socket.read())?.toString();
+    const cmdResult = Command.fromMessage(result);
+
+    if (cmdResult?.type == Signal.SignalSuccess) {
+      return cmdResult?.payload || '';
+    }
+
+    throw Error(cmdResult?.payload);
+  }
 
   disconnect() {
     this.socket.destroy();

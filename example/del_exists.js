@@ -9,8 +9,8 @@ const cacing = require('../dist');
   const isExists = await cacingClient.isExists('user1');
   console.log(isExists);
 
-  // const delResult = await cacingClient.del('user1');
-  // console.log(delResult);
+  const delResult = await cacingClient.del('user1');
+  console.log(delResult);
 
   cacingClient.disconnect();
 })();
