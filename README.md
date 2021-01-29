@@ -7,8 +7,13 @@
 * Async by default
 
 # Usage
+Installation:
+```bash
+$ npm install @cacing/client
+```
+
 ```js
-const cacing = require('cacing');
+const cacing = require('@cacing/client');
 
 (async () => {
   try {
