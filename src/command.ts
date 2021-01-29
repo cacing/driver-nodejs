@@ -38,7 +38,8 @@ class Command implements CommandContract {
     });
   }
 
-  static fromMessage(message: string): Command {
+  static fromMessage(message?: string): Command | null {
+    if (!message) return null;
     const msgObj = JSON.parse(message);
     let signal = Signal.SignalError;
 
@@ -51,7 +52,7 @@ class Command implements CommandContract {
         signal = Signal.SignalSuccess; break;
     }
 
-    return new Command(signal, msgObj['t'], msgObj['p'], msgObj['h']);
+    return new Command(signal, msgObj['u'], msgObj['p'], msgObj['h']);
   };
 
 }

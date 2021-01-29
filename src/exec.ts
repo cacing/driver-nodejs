@@ -1,8 +1,8 @@
 export enum ExecType {
-  ExecSet = 'SET',
-	ExecGet = 'GET',
-	ExecDel = 'DEL',
-	ExecExists = 'EXISTS',
+  ExecSet = 'EXEC_SET',
+	ExecGet = 'EXEC_GET',
+	ExecDel = 'EXEC_DEL',
+	ExecExists = 'EXEC_EXISTS',
 }
 
 interface ExecContract {
