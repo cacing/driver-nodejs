@@ -40,6 +40,20 @@ export class Client {
     throw Error(cmdResult?.payload);
   }
 
+  async isExists(key: string): Promise<boolean> {
+    const cmdExec = new Command(Signal.SignalExec, this.id || '', `EXISTS ${key}`);
+    await this.socket.write(cmdExec.toMessage() + '\n');
+    const result = (await this.socket.read())?.toString();
+    const cmdResult = Command.fromMessage(result);
+
+    if (cmdResult?.type == Signal.SignalSuccess) {
+      return true;
+    }
+
+    return false;
+  }
+
+
   disconnect() {
     this.socket.destroy();
   }
