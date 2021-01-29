@@ -1,0 +1,29 @@
+{
+  "name": "@cacing/client",
+  "version": "0.0.1",
+  "description": "Cacing's client driver for NodeJS.",
+  "main": "dist/index.js",
+  "devDependencies": {
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cacing/driver-nodejs.git"
+  },
+  "keywords": [],
+  "author": "Hadi Hidayat Hammurabi <hadihammurabi@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cacing/driver-nodejs/issues"
+  },
+  "homepage": "https://github.com/cacing/driver-nodejs#readme",
+  "dependencies": {
+    "@types/node": "^14.14.22"
+  }
+}
