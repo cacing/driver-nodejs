@@ -22,7 +22,7 @@ class Exec {
 	}
 }
 
-export const createExecFromCommandPayload = (payload: string): ExecContract => {
+export const createExecFromCommandPayload = (payload: string[]): ExecContract => {
 	return new Exec(ExecType.ExecExists, ["u"]);
 } 
 

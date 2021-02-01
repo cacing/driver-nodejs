@@ -15,12 +15,12 @@ export class Client {
   }
 
   async set(key: string, value: string) {
-    const cmdExec = new Command(Signal.SignalExec, this.id || '', `SET ${key} ${value}`);
+    const cmdExec = new Command(Signal.SignalExec, this.id || '', ['SET', key, value]);
     await this.socket.write(cmdExec.toMessage() + '\n');
     const result = (await this.socket.read())?.toString();
     const cmdResult = Command.fromMessage(result);
 
-    if (cmdResult?.type == Signal.SignalSuccess && cmdResult?.payload == ExecType.ExecSet) {
+    if (cmdResult?.payload && cmdResult?.type == Signal.SignalSuccess && cmdResult?.payload[0] == ExecType.ExecSet) {
       return true;
     }
 
@@ -28,20 +28,20 @@ export class Client {
   }
 
   async get(key: string): Promise<string> {
-    const cmdExec = new Command(Signal.SignalExec, this.id || '', `GET ${key}`);
+    const cmdExec = new Command(Signal.SignalExec, this.id || '', ['GET', key]);
     await this.socket.write(cmdExec.toMessage() + '\n');
     const result = (await this.socket.read())?.toString();
     const cmdResult = Command.fromMessage(result);
 
     if (cmdResult?.type == Signal.SignalSuccess) {
-      return cmdResult?.payload || '';
+      return cmdResult?.payload != undefined ? cmdResult.payload[0] : '';
     }
 
-    throw Error(cmdResult?.payload);
+    throw Error(cmdResult?.payload != undefined ? cmdResult.payload[0] : 'something wrong');
   }
 
   async isExists(key: string): Promise<boolean> {
-    const cmdExec = new Command(Signal.SignalExec, this.id || '', `EXISTS ${key}`);
+    const cmdExec = new Command(Signal.SignalExec, this.id || '', ['EXISTS', key]);
     await this.socket.write(cmdExec.toMessage() + '\n');
     const result = (await this.socket.read())?.toString();
     const cmdResult = Command.fromMessage(result);
@@ -54,16 +54,17 @@ export class Client {
   }
 
   async del(key: string): Promise<string> {
-    const cmdExec = new Command(Signal.SignalExec, this.id || '', `DEL ${key}`);
+    const cmdExec = new Command(Signal.SignalExec, this.id || '', ['DEL', key]);
     await this.socket.write(cmdExec.toMessage() + '\n');
     const result = (await this.socket.read())?.toString();
+    console.log(result);
     const cmdResult = Command.fromMessage(result);
 
     if (cmdResult?.type == Signal.SignalSuccess) {
-      return cmdResult?.payload || '';
+      return cmdResult?.payload != undefined ? cmdResult.payload[0] : '';
     }
 
-    throw Error(cmdResult?.payload);
+    throw Error(cmdResult?.payload != undefined ? cmdResult.payload[0] : 'something wrong');
   }
 
   disconnect() {
@@ -89,7 +90,7 @@ export const connect = async (dsn: string): Promise<Client> => {
   const connectResult = await socketPromised.read();
   const cmdConnectResult = Command.fromMessage(connectResult?.toString());
 
-  if (cmdConnectResult?.type == Signal.SignalSuccess && cmdConnectResult?.payload == 'login') {
+  if (cmdConnectResult?.payload && cmdConnectResult?.type == Signal.SignalSuccess && cmdConnectResult?.payload[0] == 'login') {
     client.id = cmdConnectResult.user;
   }
   return client;

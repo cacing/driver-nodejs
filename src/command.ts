@@ -14,13 +14,13 @@ interface CommandContract {
 class Command implements CommandContract {
   type: Signal;
   user: string;
-  payload?: string;
+  payload?: string[];
   headers?: CommandHeader;
 
   constructor(
     type: Signal,
     user: string,
-    payload?: string,
+    payload?: string[],
     headers?: CommandHeader,
   ) {
     this.type = type;
