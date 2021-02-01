@@ -1,16 +1,20 @@
 const cacing = require('../dist');
 
 (async () => {
-  const cacingClient = await cacing.connect('cacing://root:root@localhost:6543');
+  const dsn = 'cacing://root:root@localhost:6543';
+  const c = await cacing.connect(dsn);
 
-  const setResult = await cacingClient.set('user1', 'hadihammurabi');
-  console.log(setResult);
+  const setResult = await c.set('user1', 'hadihammurabi');
+  console.log('setResult => ', setResult);
 
-  const isExists = await cacingClient.isExists('user1');
-  console.log(isExists);
+  const isExists = await c.isExists('user1');
+  if (isExists) {
+    const user1 = await c.get('user1');
+    console.log('user1 => ', user1);
 
-  const delResult = await cacingClient.del('user1');
-  console.log(delResult);
+    const delResult = await c.del('user1');
+    console.log('delResult => ', delResult);
+  }
 
-  cacingClient.disconnect();
+  c.disconnect();
 })();
